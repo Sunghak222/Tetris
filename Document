@@ -1,25 +1,37 @@
-Program Explanation:
-  Class 'Block':
-    Class that contains the features of block in Tetris. Block has its x and y position, block number that determines the shape of the block among 7 types of block,
-    rotation number that determines how many times the block is rotated, and shape that will store the shape of the block.
-    
-  Class 'Board':
-    Class that stores the current situation during the game runs. Everytime the block is falled down to the end, the block is stored in the member variable Table[][].
-    
-  Class 'Score':
-  
-  Class 'Rules':
-    Class 'Rules' is inheriting the class 'Block', 'Board', and 'Score' (Class 'Score' is not yet implemented). It basically contains the system of Tetris
-    regarding the base classes.
+<Program Explanation>
+  Objects:
+    Class 'Block':
+      Class that contains the features of block in Tetris. Block has its x and y position, block number that determines the shape of the block among 7 types of block,
+      rotation number that determines how many times the block is rotated, and shape that will store the shape of the block.
 
+    Class 'Board':
+      Class that stores the current situation during the game runs. Everytime the block is falled down to the end, the block is stored in the member variable Table[][].
 
+    Class 'Score':
+
+    Class 'Rules':
+      Class 'Rules' is inheriting the class 'Block', 'Board', and 'Score' (Class 'Score' is not yet implemented). It basically contains the system of Tetris
+      regarding the base classes.
+      
+  Miscelleneous Functions:
+    void CursorView(char show): This function is to remove the cursor bar for convenience during the game. I just googled to find this funcion in <windows.h> library.
+
+<Hurdles>
 June 20, 2022
 A lot of bugs and hurdles occured.
 
-Problem 1: Block penetrates the wall.
+Problem 1: Unsmooth and Blinking Screen
+  When I first implemented and ran the basic functions of this program, the block created at the top middle of the board sometimes blinked and a block 
+  didn't fall smoothly. I kept examining my code, but I realized that there is no problem on each function related to block.
+  
+Problem 2: Block penetrates the wall.
   In class 'Rules', methods that check if there's collision between block object and walls/piled blocks should have more things to consider than I had expected.
-  These methods are divided into 3: CheckLeft(), CheckRight(), CheckBelow(). I only implemented them checking if there are any blocks or walls nearby 
-  the current position of the block object, and if any, blocks cannot move to that direction. 
+  These methods are divided into 3: CheckLeft(int which_case), CheckRight(int which_case), and CheckBelow(int which_case). I only implemented them checking 
+  if there are any blocks or walls nearby the current position of the block object, and if any, blocks cannot move to that direction. 
 
-  The things that I had missed are rotation. When block is rotated, its shape is changed. For example, let's say l-shaped block is located in the right end
-  and it is about to be rotated. It will penetrate the wall. To 
+  The thing that I had missed is rotation. When block is rotated, its shape is changed. For example, let's say l-shaped block is located in the right end
+  and it is about to be rotated. It may penetrate the wall.
+  
+  To solve this problem, I divided it into 2 cases: when block moves, or rotates. The method MoveBlockByKey() in the class 'Rules' check collision 
+  with CheckLeft(), CheckRight(), and CheckBelow(), and if okay, move the block. For the second case, rotation, the method checks collision in rotated position, 
+  and if collide, it cancels the rotation by RotateReverse().
