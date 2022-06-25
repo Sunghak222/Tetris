@@ -16,15 +16,15 @@
   Miscelleneous Functions:
     void CursorView(char show): This function is to remove the cursor bar for convenience during the game. I just googled to find this funcion in <windows.h> library.
 
-<Hurdles>
-June 20, 2022
+<Version & Hurdles>
+June 20, 2022:
 A lot of bugs and hurdles occured.
 
-Problem 1: Unsmooth and Blinking Screen
+Hurdle 1: Unsmooth and Blinking Screen
   When I first implemented and ran the basic functions of this program, the block created at the top middle of the board sometimes blinked and a block 
   didn't fall smoothly. I kept examining my code, but I realized that there is no problem on each function related to block.
   
-Problem 2: Block penetrates the wall.
+Hurdle 2: Block penetrates the wall.
   In class 'Rules', methods that check if there's collision between block object and walls/piled blocks should have more things to consider than I had expected.
   These methods are divided into 3: CheckLeft(int which_case), CheckRight(int which_case), and CheckBelow(int which_case). I only implemented them checking 
   if there are any blocks or walls nearby the current position of the block object, and if any, blocks cannot move to that direction. 
@@ -35,3 +35,15 @@ Problem 2: Block penetrates the wall.
   To solve this problem, I divided it into 2 cases: when block moves, or rotates. The method MoveBlockByKey() in the class 'Rules' check collision 
   with CheckLeft(), CheckRight(), and CheckBelow(), and if okay, move the block. For the second case, rotation, the method checks collision in rotated position, 
   and if collide, it cancels the rotation by RotateReverse().
+
+June 25, 2022:
+Hurdle1 & Hurdle2 solved.
+
+June 26, 2022:
+- Main menu implemented.
+- Line clearing implemented.
+- finish line implemented.
+
+To be updated:
+- Class 'Score'
+- Pause
