@@ -5,7 +5,8 @@
       rotation number that determines how many times the block is rotated, and shape that will store the shape of the block.
 
     Class 'Board':
-      Class that stores the current situation during the game runs. Everytime the block is falled down to the end, the block is stored in the member variable Table[][].
+      Class that stores the current situation during the game runs. Everytime the block is falled down to the end, the block is stored 
+      in the member variable Table[][].
 
     Class 'Score':
 
@@ -44,6 +45,11 @@ June 26, 2022:
 - Line clearing implemented.
 - finish line implemented.
 
+June 27, 2022:
+- Visual update
+    Change the block and wall units from one byte character to two bytes character - from 'o' and '#' to "■" and "▦" for better visualization.
+    
+    
 To be updated:
 - Class 'Score'
 - Pause
