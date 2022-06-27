@@ -4,16 +4,18 @@
 #include <ctime>
 #define X_INIT_BOARD 20
 #define Y_INIT_BOARD 5
-#define X_FINAL_BOARD 31
+#define X_FINAL_BOARD 41
 #define Y_FINAL_BOARD 26
-#define X_SIDE 10
+#define X_SIDE 20
 #define Y_SIDE 20
+#define X_TABLE 10
+#define Y_TABLE 20
 
 using namespace std;
-
-const char kWall = '#';
-const char kBlock = 'O';
-const char kSpace = ' ';
+//■□▦
+const string kWall = "▦";
+const string kBlock = "■";
+const string kSpace = "  ";
 
 void gotoxy(short x, short y)
 {
@@ -70,158 +72,158 @@ const int blocks[7][4][4][4] =
         },
         {
             {
-                {1,0,0,0},
-                {1,1,0,0},
-                {0,1,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {0,1,1,0},
-                {1,1,0,0},
-                {0,0,0,0}
-            },
-            {
-                {1,0,0,0},
-                {1,1,0,0},
-                {0,1,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {0,1,1,0},
-                {1,1,0,0},
-                {0,0,0,0}
-            }
-        },
-        {
-            {
-                {0,1,0,0},
-                {1,1,0,0},
-                {1,0,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {0,1,1,0},
-                {0,0,0,0}
-            },
-            {
-                {0,1,0,0},
-                {1,1,0,0},
-                {1,0,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {0,1,1,0},
-                {0,0,0,0}
-            }
-        },
-        {
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {1,1,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {1,1,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {1,1,0,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {1,1,0,0},
-                {0,0,0,0}
-            }
-        },
-        {
-            {
-                {0,0,0,0},
-                {0,1,0,0},
-                {1,1,1,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
                 {0,1,0,0},
                 {0,1,1,0},
-                {0,1,0,0}
-            },
-            {
-                {0,0,0,0},
-                {0,0,0,0},
-                {1,1,1,0},
-                {0,1,0,0}
-            },
-            {
-                {0,0,0,0},
-                {0,1,0,0},
-                {1,1,0,0},
-                {0,1,0,0}
-            }
-        },
-        {
-            {
-                {0,0,0,0},
-                {1,0,0,0},
-                {1,1,1,0},
-                {0,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,0,0},
-                {1,0,0,0},
-                {1,0,0,0}
-            },
-            {
-                {0,0,0,0},
-                {1,1,1,0},
                 {0,0,1,0},
                 {0,0,0,0}
             },
             {
                 {0,0,0,0},
+                {0,0,1,1},
+                {0,1,1,0},
+                {0,0,0,0}
+            },
+            {
                 {0,1,0,0},
+                {0,1,1,0},
+                {0,0,1,0},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,0,1,1},
+                {0,1,1,0},
+                {0,0,0,0}
+            }
+        },
+        {
+            {
+                {0,0,1,0},
+                {0,1,1,0},
                 {0,1,0,0},
-                {1,1,0,0}
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,0},
+                {0,0,1,1},
+                {0,0,0,0}
+            },
+            {
+                {0,0,1,0},
+                {0,1,1,0},
+                {0,1,0,0},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,0},
+                {0,0,1,1},
+                {0,0,0,0}
+            },
+        },
+        {
+            {
+                {0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}
             }
         },
         {
             {
                 {0,0,0,0},
                 {0,0,1,0},
-                {1,1,1,0},
-                {0,0,0,0}
-            },
-            {
-                {1,0,0,0},
-                {1,0,0,0},
-                {1,1,0,0},
+                {0,1,1,1},
                 {0,0,0,0}
             },
             {
                 {0,0,0,0},
-                {1,1,1,0},
-                {1,0,0,0},
-                {0,0,0,0}
+                {0,0,1,0},
+                {0,0,1,1},
+                {0,0,1,0}
             },
             {
                 {0,0,0,0},
-                {1,1,0,0},
+                {0,0,0,0},
+                {0,1,1,1},
+                {0,0,1,0}
+            },
+            {
+                {0,0,0,0},
+                {0,0,1,0},
+                {0,1,1,0},
+                {0,0,1,0}
+            }
+        },
+        {
+            {
+                {0,0,0,0},
                 {0,1,0,0},
-                {0,1,0,0}
+                {0,1,1,1},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,0,1,1},
+                {0,0,1,0},
+                {0,0,1,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,1},
+                {0,0,0,1},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,1},
+                {0,0,0,1},
+                {0,0,1,1},
+                {0,0,0,0}
+            }
+        },
+        {
+            {
+                {0,0,0,0},
+                {0,0,0,1},
+                {0,1,1,1},
+                {0,0,0,0}
+            },
+            {
+                {0,0,1,0},
+                {0,0,1,0},
+                {0,0,1,1},
+                {0,0,0,0}
+            },
+            {
+                {0,0,0,0},
+                {0,1,1,1},
+                {0,1,0,0},
+                {0,0,0,0}
+            },
+            {
+                {0,1,1,0},
+                {0,0,1,0},
+                {0,0,1,0},
+                {0,0,0,0}
             },
         }
     };
@@ -239,7 +241,7 @@ public:
     {
         BlockNum = (rand()%7);
         RotationNum = (rand()%4);
-        x_loc = 23;
+        x_loc = 28;
         y_loc = 6;
         for (int i = 0; i < 4; i++)
         {
@@ -252,7 +254,6 @@ public:
             }
         }
     }
-    void ResetBlockShape();
     void Rotate();
     void RotateReverse();
 };
@@ -260,14 +261,14 @@ public:
 class Board
 {
 protected:
-    int Table[Y_SIDE][X_SIDE] = {0};
+    int Table[20][10] = {0};
 public:
     void PrintFrame()
     {
-        for (int i = 0; i < X_SIDE+2; i++)
+        for (int i = 0; i < X_SIDE+4; i+=2)
         {
             gotoxy(X_INIT_BOARD+i,Y_INIT_BOARD);
-            std::cout << kWall;
+            cout << kWall;
             gotoxy(X_INIT_BOARD+i,Y_INIT_BOARD+Y_SIDE+1);
             cout << kWall;
         }
@@ -275,7 +276,7 @@ public:
         {
             gotoxy(X_INIT_BOARD,Y_INIT_BOARD+i);
             cout << kWall;
-            gotoxy(X_INIT_BOARD+X_SIDE+1,Y_INIT_BOARD+i);
+            gotoxy(X_INIT_BOARD+X_SIDE+2,Y_INIT_BOARD+i);
             cout << kWall;
         }
     }
@@ -303,8 +304,8 @@ public:
     void MoveBlockByKey(int key);
 
     int CheckCompleteLine(int y);
-    void ClearLine(int y);
-    void OrganizeTable();
+    void ClearLine();
+    void OrganizeTable(int y);
 };
 
 class Tetris
@@ -326,19 +327,6 @@ public:
     void experiment(Rules rl);//to be deleted.
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-void Block::ResetBlockShape()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            for (int k = 0; k < 4; k++)
-            {
-                shape[i][j][k] = 0;
-            }
-        }
-    }
-}
 inline void Block::Rotate()
 {
     RotationNum++;
@@ -356,44 +344,29 @@ inline void Rules::MoveDown()
 
 void Rules::DrawTable()
 {
-    for (int i = 0; i < Y_SIDE; i++)
+    for (int i = 0; i < Y_TABLE; i++)
     {
-        for (int j = 0; j < X_SIDE; j++)
+        for (int j = 0; j < X_TABLE; j++)
         {
             if (Table[i][j])
+            {
+                gotoxy(X_INIT_BOARD+2+j*2,Y_INIT_BOARD+1+i);
                 cout << kBlock;
+            }
         }
     }
 }
 void Rules::DrawBlock()
 {
-    if (y_loc < 10)
-    {
-        int i = 9-y_loc;
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                if (shape[RotationNum][i][j])
-                {
-                    gotoxy(x_loc+j,y_loc+i);
-                    cout << kBlock;
-                }
-                
-            }
-        }
-        return;
-    }
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
         {
             if (shape[RotationNum][i][j])
             {
-                gotoxy(x_loc+j,y_loc+i);
+                gotoxy(x_loc+j*2,y_loc+i);
                 cout << kBlock;
             }
-            
         }
     }
 }
@@ -405,7 +378,7 @@ void Rules::EraseBlock()
         {
             if (shape[RotationNum][i][j])
             {
-                gotoxy(x_loc+j,y_loc+i);
+                gotoxy(x_loc+j*2,y_loc+i);
                 cout << kSpace;
             }
         }
@@ -417,7 +390,10 @@ void Rules::StoreBlock()
     {
         for (int j = 0; j < 4; j++)
         {
-            Table[y_loc-Y_INIT_BOARD-1+i][x_loc-X_INIT_BOARD-1+j] = shape[RotationNum][i][j];
+            if (shape[RotationNum][i][j])
+            {
+                Table[y_loc-Y_INIT_BOARD-1+i][((x_loc-X_INIT_BOARD)/2)-1+j] = 1;
+            }
         }
     }
 }
@@ -431,11 +407,11 @@ int Rules::CheckLeft(int which_case) //case = 1 => to move left, case = 2 => to 
         {
             for (int j = 0; j < 4; j++)
             {
-                if (shape[RotationNum][i][j] && Table[y_loc+i-Y_INIT_BOARD-1][x_loc-X_INIT_BOARD+j-2])
+                if (shape[RotationNum][i][j] && x_loc+j*2 <= X_INIT_BOARD+2)
                 {
                     return 1;
                 }
-                if (shape[RotationNum][i][j] && x_loc+j <= X_INIT_BOARD+1)
+                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+1-1][((x_loc-X_INIT_BOARD)/2)+j-2])
                 {
                     return 1;
                 }
@@ -448,11 +424,11 @@ int Rules::CheckLeft(int which_case) //case = 1 => to move left, case = 2 => to 
         {
             for (int j = 0; j < 4; j++)
             {
-                if (shape[RotationNum][i][j] && Table[y_loc+i-Y_INIT_BOARD-1][x_loc-X_INIT_BOARD+j-2])
+                if (shape[RotationNum][i][j] && x_loc+j*2 <= X_INIT_BOARD)
                 {
                     return 1;
                 }
-                if (shape[RotationNum][i][j] && x_loc+j <= X_INIT_BOARD)
+                if (shape[RotationNum][i][j] && Table[y_loc+i-Y_INIT_BOARD-1][((x_loc-X_INIT_BOARD)/2)+j-2])
                 {
                     return 1;
                 }
@@ -469,11 +445,11 @@ int Rules::CheckRight(int which_case)
         {
             for (int j = 0; j < 4; j++)
             {
-                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i-1][x_loc-X_INIT_BOARD+j])
+                if (shape[RotationNum][i][j] && x_loc+j*2 >= X_FINAL_BOARD-2)
                 {
                     return 1;
                 }
-                if (shape[RotationNum][i][j] && x_loc+j >= X_FINAL_BOARD-1) //Care of wall.
+                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i-1][((x_loc-X_INIT_BOARD)/2)+j])
                 {
                     return 1;
                 }
@@ -486,11 +462,11 @@ int Rules::CheckRight(int which_case)
         {
             for (int j = 0; j < 4; j++)
             {
-                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i-1][x_loc-X_INIT_BOARD+j])
+                if (shape[RotationNum][i][j] && x_loc+j*2 >= X_FINAL_BOARD)
                 {
                     return 1;
                 }
-                if (shape[RotationNum][i][j] && x_loc+j >= X_FINAL_BOARD)//Care of wall.
+                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i-1][((x_loc-X_INIT_BOARD)/2)+j])
                 {
                     return 1;
                 }
@@ -507,11 +483,11 @@ int Rules::CheckBelow(int which_case) //to be fixed.
         {
             for (int j = 0; j < 4; j++)
             {
-                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i][x_loc-X_INIT_BOARD+j-1]) //바닥일때
+                if (shape[RotationNum][i][j] && y_loc+i >= Y_FINAL_BOARD-1)
                 {
                     return 1;
                 }
-                if (shape[RotationNum][i][j] && y_loc+j >= Y_FINAL_BOARD-1)
+                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i][((x_loc-X_INIT_BOARD)/2)+j-1])
                 {
                     return 1;
                 }
@@ -524,11 +500,11 @@ int Rules::CheckBelow(int which_case) //to be fixed.
         {
             for (int j = 0; j < 4; j++)
             {
-                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i][x_loc-X_INIT_BOARD+j-1]) //바닥일때
+                if (shape[RotationNum][i][j] && y_loc+i >= Y_FINAL_BOARD)
                 {
                     return 1;
                 }
-                if (shape[RotationNum][i][j] && y_loc+j >= Y_FINAL_BOARD)
+                if (shape[RotationNum][i][j] && Table[y_loc-Y_INIT_BOARD+i][((x_loc-X_INIT_BOARD)/2)+j-1])
                 {
                     return 1;
                 }
@@ -536,7 +512,10 @@ int Rules::CheckBelow(int which_case) //to be fixed.
         }
     }
 }
+void Rules::HardDrop()
+{
 
+}
 void Rules::MoveBlockByKey(int key)
 {
     if (key == 227)
@@ -547,11 +526,11 @@ void Rules::MoveBlockByKey(int key)
     {
         case RIGHT:
             if (!CheckRight(1))
-                x_loc++;
+                x_loc+=2;
             break;
         case LEFT:
             if (!CheckLeft(1))
-                x_loc--;
+                x_loc-=2;
             break;
         case DOWN:
             if (!CheckBelow(1))
@@ -574,7 +553,8 @@ void Rules::MoveBlockByKey(int key)
 }
 int Rules::CheckCompleteLine(int y)
 {
-    for (int i = 0; i < X_SIDE; i++)
+    /*If yth line is completely piled, return 1.*/
+    for (int i = 0; i < X_TABLE; i++)
     {
         if (!Table[y][i])
         {
@@ -583,29 +563,40 @@ int Rules::CheckCompleteLine(int y)
     }
     return 1;
 }
-void Rules::ClearLine(int y)
+void Rules::ClearLine()
 {
-    for (int i = 0; i < Y_SIDE; i++)
+    /*After deleting lines, move down the piled blocks to the empty spaces.*/
+    for (int i = 0; i < Y_TABLE; i++)
     {
         if (CheckCompleteLine(i))
         {
-            for (int j = 0; j < X_SIDE; j++)
+            for (int j = 0; j < X_TABLE; j++)
             {
                 Table[i][j] = 0;
+                gotoxy(X_INIT_BOARD+j*2+2, Y_INIT_BOARD+i+1);
+                cout << kSpace;
             }
+            OrganizeTable(i);
         }
     }
+
+
 }
-void Rules::OrganizeTable() //Not yet completed.
+void Rules::OrganizeTable(int y) //Not yet completed.
 {
     /*After deleting line, move down the piled blocks to the empty spaces.*/
-    for (int i = 0; i < Y_SIDE; i++)
+    for (int i = y-1; i > -1; i--)
     {
-        for (int j = 0; j < X_SIDE; j++)
+        for (int j = 0; j < X_TABLE; j++)
         {
-            if (!(Table[i][j]) && (Table[i-1][j]))
+            if ((Table[i][j]) && !(Table[i+1][j]))
             {
-
+                Table[i][j] = 0;
+                Table[i+1][j] = 1;
+                gotoxy(X_INIT_BOARD+j*2+2, Y_INIT_BOARD+i+1);
+                cout << kSpace;
+                gotoxy(X_INIT_BOARD+j*2+2, Y_INIT_BOARD+i+2);
+                cout << kBlock;
             }
         }
     }
@@ -613,15 +604,21 @@ void Rules::OrganizeTable() //Not yet completed.
 
 void Tetris::MainMenu()
 {
-    
+    cout << "\n\n\n\n";
+    cout << "\t\t"; cout << "@@@@@@@@@@@@  @@@@@@@@@   @@@@@@@@@@@  @@@@@@@@   @   @@@@@@@@@@@\n";
+    cout << "\t\t"; cout << "      @       @                @       @      @   @   @          \n";
+    cout << "\t\t"; cout << "      @       @                @       @      @   @   @          \n";
+    cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @     @    @   @@@@@@@@@@@\n";
+    cout << "\t\t"; cout << "      @       @                @       @ @ @      @             @\n";
+    cout << "\t\t"; cout << "      @       @                @       @     @    @             @\n";
+    cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @      @   @   @@@@@@@@@@@\n\n\n\n\n";
+    cout << "\t\t"; cout << "                Press any key to start.\n\n\n\n\n\n\n";
 }
-void Tetris::GamePlay() //가로막대가 왼쪽벽을 뚫음. 쌓여있던 블럭도 뚫음. 떨어졌을때 약간의 딜레이 필요.
+void Tetris::GamePlay()
 {
     MainMenu();
-
     while (true)
     {
-        //MainMenu();
         if (_kbhit())
         {
             system("cls");
@@ -632,6 +629,7 @@ void Tetris::GamePlay() //가로막대가 왼쪽벽을 뚫음. 쌓여있던 블�
     rl.PrintFrame();
     time_start = clock();
     rl.CreateBlock();
+
     while (true)
     {
         rl.DrawBlock();
@@ -655,8 +653,8 @@ void Tetris::GamePlay() //가로막대가 왼쪽벽을 뚫음. 쌓여있던 블�
             }
             else
             {
-                rl.StoreBlock(); //문제예상
-                rl.ResetBlockShape();
+                rl.StoreBlock();
+                rl.ClearLine();
                 rl.CreateBlock();
             }
             time_start = clock();
@@ -671,9 +669,6 @@ int main()
     srand(time(NULL));
     system("cls");
 
-    Block bl;
-    Board bd;
-    Rules rl;
     Tetris tt;
     tt.GamePlay();
 }
