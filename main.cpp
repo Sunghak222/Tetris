@@ -4,15 +4,16 @@
 #include <ctime>
 #define X_INIT_BOARD 20
 #define Y_INIT_BOARD 5
-#define X_FINAL_BOARD 41
-#define Y_FINAL_BOARD 26
-#define X_SIDE 20
+#define X_FINAL_BOARD 41 //X_INIT_BOARD+X_SIDE+1
+#define Y_FINAL_BOARD 26 //Y_INIT_BOARD+Y_SIDE+1
+#define X_SIDE 20 //X_SIDE is 10*2 because "■" and "▦" are 2 bytes character which consumes 2 blanks in x-axis and 1 blank in y-axis.
 #define Y_SIDE 20
 #define X_TABLE 10
 #define Y_TABLE 20
+#define Y_END 6 // Finish Line.
 
 using namespace std;
-//■□▦
+
 const string kWall = "▦";
 const string kBlock = "■";
 const string kSpace = "  ";
@@ -39,10 +40,15 @@ enum Keys
     LEFT = 75,
     RIGHT = 77,
     UP = 72,
-    DOWN = 80
+    DOWN = 80,
+    Y = 89,
+    y = 121,
+    N = 78,
+    n = 110
 };
 
-const int blocks[7][4][4][4] = 
+/*Store the information of 7 block shapes. blocks[which block][which rotation][y][x].*/
+const int blocks[7][4][4][4] =
     {
         {
             {
@@ -231,8 +237,8 @@ const int blocks[7][4][4][4] =
 class Block
 {
 protected:
-    int BlockNum; //Which block? 1~7
-    int RotationNum; //How many turns? 1~4
+    int BlockNum; //Which block? 0~6
+    int RotationNum; //How many turns? 0~4
     int shape[4][4][4];
     int x_loc;
     int y_loc;
@@ -265,6 +271,7 @@ protected:
 public:
     void PrintFrame()
     {
+        /*prints the frame of the game*/
         for (int i = 0; i < X_SIDE+4; i+=2)
         {
             gotoxy(X_INIT_BOARD+i,Y_INIT_BOARD);
@@ -284,7 +291,17 @@ public:
 
 class Score
 {
-    
+protected:
+    int score;
+public:
+    Score()
+    {
+        score = 0;
+    }
+    inline void PrintScore()
+    {
+        cout << score;
+    }
 };
 
 class Rules : public Block, public Board, public Score
@@ -306,6 +323,8 @@ public:
     int CheckCompleteLine(int y);
     void ClearLine();
     void OrganizeTable(int y);
+
+    int isReachEnd();
 };
 
 class Tetris
@@ -315,6 +334,7 @@ private:
     int time_start;
     int time_end;
     int time;
+    int pause_add;
     Block *object;
     Rules rl;
 public:
@@ -323,27 +343,32 @@ public:
         delete[] object;
     }
     void MainMenu();
+    void Pause();
+    void FinishGame();
     void GamePlay();
-    void experiment(Rules rl);//to be deleted.
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 inline void Block::Rotate()
 {
+    /* Method that rotates the block clockwise. */
     RotationNum++;
     RotationNum = (RotationNum > 3) ? RotationNum-4 : RotationNum;
 }
 inline void Block::RotateReverse()
 {
+    /* Method that rotates the block counterclockwise. */
     RotationNum--;
     RotationNum = (RotationNum < 0) ? RotationNum+4 : RotationNum;
 }
 inline void Rules::MoveDown()
 {
+    /* Method that moves the block down by 1 */
     y_loc++;
 }
 
 void Rules::DrawTable()
 {
+    /* Method that draws the information of the current game stored in Table. */
     for (int i = 0; i < Y_TABLE; i++)
     {
         for (int j = 0; j < X_TABLE; j++)
@@ -358,6 +383,7 @@ void Rules::DrawTable()
 }
 void Rules::DrawBlock()
 {
+    /* Method that draws the block in current position */
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -372,6 +398,7 @@ void Rules::DrawBlock()
 }
 void Rules::EraseBlock()
 {
+    /* Method that erases the block drawn in the screen. */
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -386,6 +413,7 @@ void Rules::EraseBlock()
 }
 void Rules::StoreBlock()
 {
+    /* Method that stores the block in the Table. */
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -400,7 +428,7 @@ void Rules::StoreBlock()
 
 int Rules::CheckLeft(int which_case) //case = 1 => to move left, case = 2 => to rotate.
 {
-    /*If the block collides when LEFT button is hitted, return 1.*/
+    /*If the block collides with wall or blocks when LEFT button is hitted, return 1.*/
     if (which_case == 1)
     {
         for (int i = 0; i < 4; i++)
@@ -438,7 +466,7 @@ int Rules::CheckLeft(int which_case) //case = 1 => to move left, case = 2 => to 
 }
 int Rules::CheckRight(int which_case)
 {
-    /*If the block collides when RIGHT button is hitted, return 1.*/
+    /*If the block collides with wall or blocks when RIGHT button is hitted, return 1.*/
     if (which_case == 1)
     {
         for (int i = 0; i < 4; i++)
@@ -474,9 +502,9 @@ int Rules::CheckRight(int which_case)
         }
     }
 }
-int Rules::CheckBelow(int which_case) //to be fixed.
+int Rules::CheckBelow(int which_case)
 {
-    /*If the block collides when it goes down, return 1.*/
+    /*If the block collides with wall or blocks when it goes down, return 1.*/
     if (which_case == 1)
     {
         for (int i = 0; i < 4; i++)
@@ -514,10 +542,15 @@ int Rules::CheckBelow(int which_case) //to be fixed.
 }
 void Rules::HardDrop()
 {
-
+    /* Hard drop the block. */
+    while (!CheckBelow(1))
+    {
+        y_loc++;
+    }
 }
 void Rules::MoveBlockByKey(int key)
 {
+    /* Method that accepts inputs by a user and outputs correspondingly. */
     if (key == 227)
     {
         key = _getch();
@@ -526,34 +559,32 @@ void Rules::MoveBlockByKey(int key)
     {
         case RIGHT:
             if (!CheckRight(1))
-                x_loc+=2;
+                x_loc+=2; // Plus 2 because the wall and block are 2-bytes character.
             break;
         case LEFT:
             if (!CheckLeft(1))
-                x_loc-=2;
+                x_loc-=2; // Minus 2 because the wall and block are 2-bytes character.
             break;
         case DOWN:
             if (!CheckBelow(1))
                 y_loc++;
             break;
         case UP:
-            //HardDrop();
+            HardDrop(); // Hard drop the block and store in Table immediately.
+            StoreBlock();
             break;
-        case SPACE:
+        case SPACE: // Rotate the block first and if that causes collision, rotate back to the original position.
             Rotate();
             if (CheckRight(2) || CheckLeft(2) || CheckBelow(2))
                 RotateReverse();
             break;
-        case ESC:
-            //Pause();
-            break;
-        default:
+        default: // Rejects any unrelated inputs by user.
             break;  
     }
 }
 int Rules::CheckCompleteLine(int y)
 {
-    /*If yth line is completely piled, return 1.*/
+    /* If yth line is completely piled, return 1. */
     for (int i = 0; i < X_TABLE; i++)
     {
         if (!Table[y][i])
@@ -565,7 +596,7 @@ int Rules::CheckCompleteLine(int y)
 }
 void Rules::ClearLine()
 {
-    /*After deleting lines, move down the piled blocks to the empty spaces.*/
+    /* After deleting lines, move down the piled blocks to the empty spaces. */
     for (int i = 0; i < Y_TABLE; i++)
     {
         if (CheckCompleteLine(i))
@@ -577,14 +608,15 @@ void Rules::ClearLine()
                 cout << kSpace;
             }
             OrganizeTable(i);
+            score += 100;
         }
     }
 
 
 }
-void Rules::OrganizeTable(int y) //Not yet completed.
+void Rules::OrganizeTable(int y)
 {
-    /*After deleting line, move down the piled blocks to the empty spaces.*/
+    /* After deleting line, move down the piled blocks to the empty spaces. */
     for (int i = y-1; i > -1; i--)
     {
         for (int j = 0; j < X_TABLE; j++)
@@ -601,6 +633,18 @@ void Rules::OrganizeTable(int y) //Not yet completed.
         }
     }
 }
+int Rules::isReachEnd()
+{
+    /* Method that checks if a block reaches on the finish line of the Table. */
+    for (int i = 0; i < X_TABLE; i++)
+    {
+        if (Table[Y_END-Y_INIT_BOARD][i])
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void Tetris::MainMenu()
 {
@@ -614,8 +658,32 @@ void Tetris::MainMenu()
     cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @      @   @   @@@@@@@@@@@\n\n\n\n\n";
     cout << "\t\t"; cout << "                Press any key to start.\n\n\n\n\n\n\n";
 }
+void Tetris::Pause()
+{
+    cout << "\n\n\n\n";
+    cout << "\t\t"; cout << "@@@@@@    @     @      @     @@@@   @@@@@@\n";
+    cout << "\t\t"; cout << "@    @   @ @    @      @    @       @\n";
+    cout << "\t\t"; cout << "@@@@@@  @   @   @      @     @@@@   @@@@@@\n";
+    cout << "\t\t"; cout << "@      @@@@@@@   @    @          @  @\n";
+    cout << "\t\t"; cout << "@     @       @   @@@@       @@@@   @@@@@@\n\n\n";
+    cout << "\t\t\t"; cout << "To continue, press 'y'\n";
+    cout << "\t\t\t"; cout << "To quit, press 'n'";
+}
+void Tetris::FinishGame()
+{
+    /* Method that informs the user that the game is over and shows score of the game. */
+    cout << "\n\n\n\n";
+    cout << "\t\t"; cout << " @@@@@      @      @@   @@  @@@@@@    @@@@   @     @  @@@@@@  @  @@\n";
+    cout << "\t\t"; cout << "@          @ @     @ @ @ @  @        @@  @@  @@   @@  @       @@   @\n";
+    cout << "\t\t"; cout << "@  @@@    @   @    @  @  @  @@@@@@   @    @   @@ @@   @@@@@@  @\n";
+    cout << "\t\t"; cout << "@   @@   @@@@@@@   @     @  @        @@  @@    @ @    @       @\n";
+    cout << "\t\t"; cout << " @@@@   @       @  @     @  @@@@@@    @@@@      @     @@@@@@  @\n\n\n";
+    cout << "\t\t\t\t"; cout << "Score: ";
+    rl.PrintScore();
+}
 void Tetris::GamePlay()
 {
+    pause_add = 0;
     MainMenu();
     while (true)
     {
@@ -632,20 +700,52 @@ void Tetris::GamePlay()
 
     while (true)
     {
+        if (rl.isReachEnd())
+        {
+            system("cls");
+            FinishGame();
+            return;
+        }
         rl.DrawBlock();
         rl.DrawTable();
         if (_kbhit())
         {
             key = _getch();
             if (key == ESC)
-                break;
+            {
+                pause_add = clock()-time_start;
+                system("cls");
+                Pause();
+                while (true)
+                {
+                    if (_kbhit())
+                    {
+                        key = _getch();
+                        if (key == Y || key == y)
+                        {
+                            system("cls");
+                            rl.PrintFrame();
+                            rl.DrawBlock();
+                            rl.DrawTable();
+                            time_start = clock();
+                            break;
+                        }
+                        else if (key == N || key == n)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
             rl.EraseBlock();
             rl.MoveBlockByKey(key);
         }
         time_end = clock();
         time = ((float)(time_end - time_start) / CLOCKS_PER_SEC);
+        time += pause_add;
         if (time >= 1.0)
         {
+            pause_add = 0;
             if (!rl.CheckBelow(1))
             {
                 rl.EraseBlock();
@@ -664,8 +764,8 @@ void Tetris::GamePlay()
 
 int main()
 {
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-    CursorView(false);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11); // Determines the color.
+    CursorView(false); // Hide cursor.
     srand(time(NULL));
     system("cls");
 
