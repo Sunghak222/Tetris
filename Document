@@ -48,8 +48,9 @@ June 26, 2022:
 June 27, 2022:
 - Visual update
     Change the block and wall units from one byte character to two bytes character - from 'o' and '#' to "■" and "▦" for better visualization.
-    
+- Pause implemented.
+- Game over implemented.
+- Class 'Score' implemented.
     
 To be updated:
-- Class 'Score'
-- Pause
+- Next block
