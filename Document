@@ -9,7 +9,8 @@
       in the member variable Table[][].
 
     Class 'Score':
-
+      Class that stores the score of the game.
+      
     Class 'Rules':
       Class 'Rules' is inheriting the class 'Block', 'Board', and 'Score' (Class 'Score' is not yet implemented). It basically contains the system of Tetris
       regarding the base classes.
@@ -19,7 +20,7 @@
 
 <Version & Hurdles>
 June 20, 2022:
-A lot of bugs and hurdles occured.
+- A lot of bugs and hurdles occured.
 
 Hurdle 1: Unsmooth and Blinking Screen
   When I first implemented and ran the basic functions of this program, the block created at the top middle of the board sometimes blinked and a block 
@@ -38,7 +39,7 @@ Hurdle 2: Block penetrates the wall.
   and if collide, it cancels the rotation by RotateReverse().
 
 June 25, 2022:
-Hurdle1 & Hurdle2 solved.
+- Hurdle1 & Hurdle2 solved.
 
 June 26, 2022:
 - Main menu implemented.
@@ -48,6 +49,7 @@ June 26, 2022:
 June 27, 2022:
 - Visual update
     Change the block and wall units from one byte character to two bytes character - from 'o' and '#' to "■" and "▦" for better visualization.
+- Hard drop implemented.
 - Pause implemented.
 - Game over implemented.
 - Class 'Score' implemented.
